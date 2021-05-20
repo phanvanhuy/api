@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<header>
+
+  <body>
+    <br>
+    <form method="post" action="put.php" id="my_form">
+
+      Name:&nbsp;&nbsp;<input type="text" name="name">
+      <br>
+      <br>
+      Status:&nbsp;&nbsp;<input type="text" name="status">
+      <input type="submit" name="submit" value="Submit">
+      <br>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="server-results"></span>
+      </div>
+    </form>
+
+
+    <script>
+      $("#my_form").submit(function (event) {
+        event.preventDefault(); //prevent default action 
+        var post_url = $(this).attr("action"); //get form action url
+        var form_data = $(this).serialize(); //Encode form elements for submission
+        $.post(post_url, form_data, function (response) {
+          $("#server-results").html(response);
+        });
+        setTimeout(kk, 1000);
+
+      });
+    </script>
+
+    <br>
+    <form method="post" action="create.php" id="my_form1">
+      Create: <input type="text" name="fname">
+      <input type="submit">
+      
+      <br>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="server-results1"></span>
+      </div>
+
+    </form>
+    <script>
+      $("#my_form1").submit(function (event) {
+        event.preventDefault(); //prevent default action 
+        var post_url = $(this).attr("action"); //get form action url
+        var form_data = $(this).serialize(); //Encode form elements for submission
+
+        $.post(post_url, form_data, function (response) {
+          $("#server-results1").html(response);
+        });
+        setTimeout(kk, 1000);
+
+      });
+    </script>
+
+    <br>
+    <form method="post" action="delete.php" id="my_form2">
+      Delete: <input type="text" name="delete">
+      <input type="submit">
+     
+      <br>  
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="server-results2"></span>
+      </div>
+
+    </form>
+
+    <script>
+      $("#my_form2").submit(function (event) {
+        event.preventDefault(); //prevent default action 
+        var post_url = $(this).attr("action"); //get form action url
+        var form_data = $(this).serialize(); //Encode form elements for submission
+
+        $.post(post_url, form_data, function (response) {
+          $("#server-results2").html(response);
+        });
+        setTimeout(kk, 1000);
+
+      });
+    </script>
+
+    <br>
+    <div class="container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <th>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <th>
+              Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </th>
+          </tr>
+        </thead>
+        <tbody id="data">
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      function kk() {
+        fetch("get.php").then(
+          res => {
+            res.json().then(
+              data => {
+                //console.log(data);
+                if (data.length > 0) {
+
+                  var temp = "";
+                  data.forEach((itemData) => {
+                    temp += "<tr>";
+                    temp += "<td>" + itemData.id + "</td>";
+                    temp += "<td>" + itemData.name + "</td>";
+                    temp += "<td>" + itemData.status + "</td></tr>";
+                  });
+                  document.getElementById('data').innerHTML = temp;
+                }
+              }
+            )
+          }
+        )
+      }
+      kk();
+    </script>
+    <!-- <iframe src="get.php" style="height:600px;width:600px" title="Iframe Example"></iframe> -->
+  </body>
+</header>
+
+</html>
